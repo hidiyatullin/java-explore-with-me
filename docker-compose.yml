@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   stats-server:
-    build: stats-service2/stats-server
+    build: stats-service2
     image: stats
     container_name: stats-service
     restart: always
@@ -9,7 +9,7 @@ services:
       - "9090:9090"
     depends_on:
       - stats-db
-      - ewm-service
+#      - ewm-service
     environment:
         - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
         - SPRING_DATASOURCE_USERNAME=postgres
@@ -34,6 +34,7 @@ services:
       - "8080:8080"
     depends_on:
       - ewm-db
+      - stats-server
     environment:
         - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
         - SPRING_DATASOURCE_USERNAME=ewm
