@@ -32,7 +32,7 @@ public class StatsServiceImpl implements StatsService {
         LocalDateTime startTime = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endTime = LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        if(unique) {
+        if (unique) {
             return statsRepository.findAllUnique(startTime, endTime, uris, unique);
         } else {
             return statsRepository.findAll(startTime, endTime, uris);
