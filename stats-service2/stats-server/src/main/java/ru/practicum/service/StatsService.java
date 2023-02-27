@@ -1,7 +1,7 @@
-package service;
+package ru.practicum.service;
 
-import dto.EndPointStatsClientDto;
-import model.ViewStats;
+import ru.practicum.dto.EndPointStatsClientDto;
+import ru.practicum.model.ViewStats;
 
 import java.util.List;
 

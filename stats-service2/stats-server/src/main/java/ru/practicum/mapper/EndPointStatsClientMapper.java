@@ -1,7 +1,7 @@
-package mapper;
+package ru.practicum.mapper;
 
-import dto.EndPointStatsClientDto;
-import model.EndPointStatsClient;
+import ru.practicum.dto.EndPointStatsClientDto;
+import ru.practicum.model.EndPointStatsClient;
 
 public class EndPointStatsClientMapper {
 

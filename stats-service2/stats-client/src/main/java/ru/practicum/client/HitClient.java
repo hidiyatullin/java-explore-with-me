@@ -1,4 +1,6 @@
-import dto.EndPointStatsClientDto;
+package ru.practicum.client;
+
+import ru.practicum.dto.EndPointStatsClientDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

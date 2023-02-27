@@ -1,7 +1,7 @@
-package repository;
+package ru.practicum.repository;
 
-import model.EndPointStatsClient;
-import model.ViewStats;
+import ru.practicum.model.EndPointStatsClient;
+import ru.practicum.model.ViewStats;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

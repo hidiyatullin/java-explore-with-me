@@ -1,12 +1,12 @@
-package controller;
+package ru.practicum.controller;
 
-import dto.EndPointStatsClientDto;
+import ru.practicum.dto.EndPointStatsClientDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import model.ViewStats;
+import ru.practicum.model.ViewStats;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import service.StatsService;
+import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
 import java.util.List;

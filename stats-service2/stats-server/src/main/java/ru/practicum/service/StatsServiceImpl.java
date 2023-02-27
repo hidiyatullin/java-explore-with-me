@@ -1,12 +1,12 @@
-package service;
+package ru.practicum.service;
 
-import dto.EndPointStatsClientDto;
-import mapper.EndPointStatsClientMapper;
-import repository.StatsRepository;
+import ru.practicum.dto.EndPointStatsClientDto;
+import ru.practicum.mapper.EndPointStatsClientMapper;
+import ru.practicum.repository.StatsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import model.EndPointStatsClient;
-import model.ViewStats;
+import ru.practicum.model.EndPointStatsClient;
+import ru.practicum.model.ViewStats;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
