@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   stats-server:
-    build: stats-service2/stats-server
+    build: stats-service/stats-server
     image: stats
     container_name: stats-service-container
     restart: always
