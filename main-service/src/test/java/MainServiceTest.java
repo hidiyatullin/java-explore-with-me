@@ -1,7 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.practicum.mainService.MainService;
 
-@SpringBootTest
+@SpringBootTest(classes={MainService.class})
 class MainServiceTest {
 
     @Test
