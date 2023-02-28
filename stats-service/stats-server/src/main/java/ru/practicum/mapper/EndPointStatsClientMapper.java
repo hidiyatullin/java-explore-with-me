@@ -3,6 +3,9 @@ package ru.practicum.mapper;
 import ru.practicum.dto.EndPointStatsClientDto;
 import ru.practicum.model.EndPointStatsClient;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class EndPointStatsClientMapper {
 
     public static EndPointStatsClientDto toEndPointStatsClientDto(EndPointStatsClient endPointStatsClient) {
@@ -11,7 +14,7 @@ public class EndPointStatsClientMapper {
                 .app(endPointStatsClient.getApp())
                 .uri(endPointStatsClient.getUri())
                 .ip(endPointStatsClient.getIp())
-                .timestamp(endPointStatsClient.getTimestamp())
+                .timestamp(endPointStatsClient.getTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .build();
     }
 
@@ -20,7 +23,8 @@ public class EndPointStatsClientMapper {
                 .app(endPointStatsClientDto.getApp())
                 .uri(endPointStatsClientDto.getUri())
                 .ip(endPointStatsClientDto.getIp())
-                .timestamp(endPointStatsClientDto.getTimestamp())
+                .timestamp(LocalDateTime.parse(endPointStatsClientDto.getTimestamp(),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .build();
     }
 }

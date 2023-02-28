@@ -22,5 +22,5 @@ public class EndPointStatsClientDto {
     @NotBlank
     private String ip;
     @NotNull
-    private LocalDateTime timestamp;
+    private String timestamp;
 }
