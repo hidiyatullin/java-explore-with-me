@@ -18,12 +18,12 @@ public class EndPointStatsClient {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "app")
+    @Column(name = "app", nullable = false)
     private String app;
-    @Column(name = "uri")
+    @Column(name = "uri", nullable = false)
     private String uri;
-    @Column(name = "ip")
+    @Column(name = "ip", nullable = false)
     private String ip;
-    @Column(name = "timestamp")
+    @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
 }
