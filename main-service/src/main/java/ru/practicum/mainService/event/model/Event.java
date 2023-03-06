@@ -1,7 +1,7 @@
 package ru.practicum.mainService.event.model;
 
 import lombok.*;
-import ru.practicum.mainService.сategory.model.Category;
+import ru.practicum.mainService.category.model.Category;
 import ru.practicum.mainService.compilation.model.Compilation;
 import ru.practicum.mainService.user.model.User;
 

@@ -1,4 +1,4 @@
-package ru.practicum.mainService.сategory.model;
+package ru.practicum.mainService.category.model;
 
 import lombok.*;
 

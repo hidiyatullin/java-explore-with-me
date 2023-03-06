@@ -7,7 +7,7 @@ import ru.practicum.mainService.event.dto.NewEventDto;
 import ru.practicum.mainService.event.model.Event;
 import ru.practicum.mainService.event.model.Location;
 import ru.practicum.mainService.event.model.State;
-import ru.practicum.mainService.сategory.model.Category;
+import ru.practicum.mainService.category.model.Category;
 
 import java.time.LocalDateTime;
 

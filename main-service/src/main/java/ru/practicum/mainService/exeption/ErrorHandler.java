@@ -24,7 +24,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> NotFound(final NotFoundException e) {
+    public Map<String, String> NotFoundObject(final NotFoundException e) {
         log.debug("404, {}", e.getMessage());
         return Map.of(
                 "error", "Ошибка с параметром.",

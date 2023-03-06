@@ -18,14 +18,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CompilationServiceImpl implements CompilationService{
+public class CompilationServiceImpl implements CompilationService {
 
     private final CompilationRepository compilationRepository;
     private final EventRepository eventRepository;
+
     @Override
     public List<CompilationDto> getAllCompilations(Boolean pinned, Integer from, Integer size) {
         PageRequest pageRequest = PageRequest.of(from / size, size);
-        if(Objects.isNull(pinned)) {
+        if (Objects.isNull(pinned)) {
             compilationRepository.findAll(pageRequest);
         }
         return compilationRepository.findAllByPinned(pinned, pageRequest)

@@ -1,11 +1,11 @@
-package ru.practicum.mainService.сategory.controller;
+package ru.practicum.mainService.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainService.сategory.dto.CategoryDto;
-import ru.practicum.mainService.сategory.service.CategoryService;
+import ru.practicum.mainService.category.dto.CategoryDto;
+import ru.practicum.mainService.category.service.CategoryService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

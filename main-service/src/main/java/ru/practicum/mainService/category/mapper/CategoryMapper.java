@@ -1,7 +1,7 @@
-package ru.practicum.mainService.сategory.mapper;
+package ru.practicum.mainService.category.mapper;
 
-import ru.practicum.mainService.сategory.dto.CategoryDto;
-import ru.practicum.mainService.сategory.model.Category;
+import ru.practicum.mainService.category.dto.CategoryDto;
+import ru.practicum.mainService.category.model.Category;
 
 public class CategoryMapper {
 

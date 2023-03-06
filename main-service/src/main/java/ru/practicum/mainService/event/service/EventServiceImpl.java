@@ -23,7 +23,7 @@ import ru.practicum.mainService.requests.model.RequestEventStatus;
 import ru.practicum.mainService.requests.repository.RequestRepository;
 import ru.practicum.mainService.user.model.User;
 import ru.practicum.mainService.user.repository.UserRepository;
-import ru.practicum.mainService.сategory.model.Category;
+import ru.practicum.mainService.category.model.Category;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -37,12 +37,13 @@ import static ru.practicum.mainService.requests.model.RequestEventStatus.REJECTE
 @Service
 @Setter
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final RequestRepository requestRepository;
     private final HitClient hitClient;
+
     @Override
     @Transactional
     public EventFullDto create(Long userId, NewEventDto eventNewDto) {

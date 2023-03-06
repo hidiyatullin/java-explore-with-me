@@ -1,14 +1,14 @@
-package ru.practicum.mainService.сategory.service;
+package ru.practicum.mainService.category.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.mainService.exeption.IncorrectDataException;
 import ru.practicum.mainService.exeption.NotFoundException;
-import ru.practicum.mainService.сategory.dto.CategoryDto;
-import ru.practicum.mainService.сategory.mapper.CategoryMapper;
-import ru.practicum.mainService.сategory.model.Category;
-import ru.practicum.mainService.сategory.repository.CategoryRepository;
+import ru.practicum.mainService.category.dto.CategoryDto;
+import ru.practicum.mainService.category.mapper.CategoryMapper;
+import ru.practicum.mainService.category.model.Category;
+import ru.practicum.mainService.category.repository.CategoryRepository;
 import ru.practicum.mainService.event.repository.EventRepository;
 
 import javax.transaction.Transactional;
@@ -17,10 +17,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
+
     @Override
     @Transactional
     public CategoryDto create(CategoryDto categoryDto) {

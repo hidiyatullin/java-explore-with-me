@@ -1,8 +1,8 @@
-package ru.practicum.mainService.сategory.repository;
+package ru.practicum.mainService.category.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import ru.practicum.mainService.сategory.model.Category;
+import ru.practicum.mainService.category.model.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(nativeQuery = true,
