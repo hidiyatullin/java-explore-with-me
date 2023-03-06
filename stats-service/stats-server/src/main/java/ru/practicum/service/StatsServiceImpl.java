@@ -10,7 +10,6 @@ import ru.practicum.model.ViewStats;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -34,25 +33,18 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> getViewStats(String startDate, String endDate, List<String> uris, Boolean unique) {
-//        LocalDateTime startStat;
-//        LocalDateTime endStat;
-//        if (uris.isEmpty()) {
-//            throw new ValidationException("Uris для подсчета статистики не переданы");
-//        }
-//        startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8), formatter);
-//        endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8), formatter);
-//
-//        if (unique) {
-//            return statsRepository.findAllUnique(startStat, endStat, uris, unique);
-//        } else {
-//            return statsRepository.findAll(startStat, endStat, uris);
-//        }
-        LocalDateTime startOfTime = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime endOfTime = LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime startStat;
+        LocalDateTime endStat;
+        if (uris.isEmpty()) {
+            throw new ValidationException("Uris для подсчета статистики не переданы");
+        }
+        startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8), formatter);
+        endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8), formatter);
+
         if (unique) {
-            return statsRepository.findAllUnique(startOfTime, endOfTime, uris, unique);
+            return statsRepository.findAllUnique(startStat, endStat, uris, unique);
         } else {
-            return statsRepository.findAll(startOfTime, endOfTime, uris);
+            return statsRepository.findAll(startStat, endStat, uris);
         }
     }
 }
