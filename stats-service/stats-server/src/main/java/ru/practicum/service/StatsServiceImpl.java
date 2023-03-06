@@ -34,22 +34,25 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> getViewStats(String startDate, String endDate, List<String> uris, Boolean unique) {
-        LocalDateTime startStat;
-        LocalDateTime endStat;
-        if (uris.isEmpty()) {
-            throw new ValidationException("Uris для подсчета статистики не переданы");
-        }
-        try {
-            startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8.toString()), formatter);
-            endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8.toString()), formatter);
-        } catch (UnsupportedEncodingException e) {
-            throw new ValidationException("Время не может быть раскодировано");
-        }
-
+//        LocalDateTime startStat;
+//        LocalDateTime endStat;
+//        if (uris.isEmpty()) {
+//            throw new ValidationException("Uris для подсчета статистики не переданы");
+//        }
+//        startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8), formatter);
+//        endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8), formatter);
+//
+//        if (unique) {
+//            return statsRepository.findAllUnique(startStat, endStat, uris, unique);
+//        } else {
+//            return statsRepository.findAll(startStat, endStat, uris);
+//        }
+        LocalDateTime startOfTime = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endOfTime = LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         if (unique) {
-            return statsRepository.findAllUnique(startStat, endStat, uris, unique);
+            return statsRepository.findAllUnique(startOfTime, endOfTime, uris, unique);
         } else {
-            return statsRepository.findAll(startStat, endStat, uris);
+            return statsRepository.findAll(startOfTime, endOfTime, uris);
         }
     }
 }

@@ -10,6 +10,9 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +31,15 @@ public class HitClient extends BaseClient {
     }
 
 
-    public ResponseEntity<Object> createHit(EndPointStatsClientDto endPointStatsClientDto) {
-        return post("/hit", endPointStatsClientDto);
+    public ResponseEntity<Object> createHit(HttpServletRequest httpServletRequest) {
+        String uri = httpServletRequest.getRequestURI();
+        String ip = httpServletRequest.getRemoteAddr();
+        return post("/hit", EndPointStatsClientDto.builder()
+                .ip(ip)
+                .uri(uri)
+                .app("main_service")
+                .timestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build());
     }
 
     public ResponseEntity<Object> getStats(String start, String end, List<String> uris, Boolean unique) {
