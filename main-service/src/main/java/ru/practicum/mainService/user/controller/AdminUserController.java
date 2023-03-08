@@ -9,8 +9,6 @@ import ru.practicum.mainService.exeption.Create;
 import ru.practicum.mainService.user.dto.UserDto;
 import ru.practicum.mainService.user.service.UserService;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
