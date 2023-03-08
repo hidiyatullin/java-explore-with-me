@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/admin/events")
 public class AdminEventController {
 
-    private EventService eventService;
+    private final EventService eventService;
 
     @PutMapping("{eventId}")
     public EventFullDto update(@PathVariable @NotNull Long eventId,

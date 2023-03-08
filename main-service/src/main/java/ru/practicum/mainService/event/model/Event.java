@@ -35,6 +35,7 @@ public class Event {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Builder.Default
@@ -59,14 +60,14 @@ public class Event {
     @Column(name = "request_moderation")
     private Boolean requestModeration;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Location location;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private State state = State.PENDING;
 
-    @Column(name = "participant_linit")
+    @Column(name = "participant_limit")
     private Integer participantLimit;
 
     @Column(name = "views")

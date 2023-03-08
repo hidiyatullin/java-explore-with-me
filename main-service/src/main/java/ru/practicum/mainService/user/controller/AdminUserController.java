@@ -3,10 +3,13 @@ package ru.practicum.mainService.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.mainService.exeption.Create;
 import ru.practicum.mainService.user.dto.UserDto;
 import ru.practicum.mainService.user.service.UserService;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -18,11 +21,11 @@ import java.util.List;
 @RequestMapping("admin/users")
 public class AdminUserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@Valid @RequestBody UserDto userDto) {
+    public UserDto create(@Validated({Create.class}) @RequestBody UserDto userDto) {
         return userService.createUser(userDto);
     }
 

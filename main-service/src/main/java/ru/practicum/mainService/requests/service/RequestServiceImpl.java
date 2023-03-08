@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.mainService.event.model.Event;
 import ru.practicum.mainService.event.model.State;
 import ru.practicum.mainService.event.repository.EventRepository;
-import ru.practicum.mainService.exeption.IncorrectDataException;
+import ru.practicum.mainService.exeption.ConflictException;
 import ru.practicum.mainService.exeption.NotFoundException;
 import ru.practicum.mainService.requests.dto.ParticipationRequestDto;
 import ru.practicum.mainService.requests.mapper.RequestMapper;
@@ -32,20 +32,20 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public ParticipationRequestDto create(Long userId, Long eventId) {
         if (requestRepository.findByEventIdAndRequesterId(eventId, userId) != null) {
-            throw new IncorrectDataException("Запрос от пользователя с id уже существует " + userId);
+            throw new ConflictException("Запрос от пользователя с id уже существует " + userId);
         }
         User user = getUserById(userId);
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("События с id " + eventId + " нет в списке"));
         if (event.getInitiator().getId().equals(userId)) {
-            throw new IncorrectDataException("Пользователь с id " + userId + "не может опубликовать запрос");
+            throw new ConflictException("Пользователь с id " + userId + "не может опубликовать запрос");
         }
         int countRequestConfirmed = requestRepository.countParticipationRequestByEventIdAndStatus(eventId, RequestEventStatus.CONFIRMED);
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit() <= countRequestConfirmed) {
-            throw new IncorrectDataException("У события достигнут лимит запросов на участие");
+            throw new ConflictException("У события достигнут лимит запросов на участие");
         }
         if (!event.getState().equals(State.PUBLISHED)) {
-            throw new IncorrectDataException("Событие не имеет статус Опубликовано");
+            throw new ConflictException("Событие не имеет статус Опубликовано");
         }
         ParticipationRequest request = ParticipationRequest.builder()
                 .requester(user)

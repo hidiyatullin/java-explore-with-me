@@ -1,13 +1,16 @@
 package ru.practicum.mainService.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.practicum.mainService.exeption.ConflictException;
 import ru.practicum.mainService.user.dto.UserDto;
 import ru.practicum.mainService.user.mapper.UserMapper;
 import ru.practicum.mainService.user.model.User;
 import ru.practicum.mainService.user.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +21,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.toUser(userDto);
-        return UserMapper.toDto(userRepository.save(user));
+        try {
+            userRepository.save(user);
+            return UserMapper.toDto(user);
+        } catch (DataIntegrityViolationException sql) {
+            throw new ConflictException("Запрос приводит к нарушению целостности данных");
+        }
     }
 
     @Override
@@ -34,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }

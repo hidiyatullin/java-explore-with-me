@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/users/{userId}/events")
 public class PrivateEventController {
 
-    private EventService eventService;
+    private final EventService eventService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

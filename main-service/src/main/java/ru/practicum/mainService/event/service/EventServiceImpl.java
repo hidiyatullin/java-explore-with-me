@@ -12,7 +12,7 @@ import ru.practicum.mainService.event.model.Event;
 import ru.practicum.mainService.event.model.Location;
 import ru.practicum.mainService.event.model.State;
 import ru.practicum.mainService.event.repository.EventRepository;
-import ru.practicum.mainService.exeption.IncorrectDataException;
+import ru.practicum.mainService.exeption.ConflictException;
 import ru.practicum.mainService.exeption.NotFoundException;
 import ru.practicum.mainService.requests.dto.EventRequestStatusUpdateResult;
 import ru.practicum.mainService.requests.dto.ParticipationRequestDto;
@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
         User user = findUserById(userId);
         Event event = EventMapper.toEvent(eventNewDto);
         if (LocalDateTime.now().plusHours(2).isAfter(event.getEventDate())) {
-            throw new IncorrectDataException("Время события не может быть раньше, чем через два часа");
+            throw new ConflictException("Время события не может быть раньше, чем через два часа");
         }
         event.setInitiator(user);
         return EventMapper.eventFullDto(eventRepository.save(event), 0);
@@ -120,7 +120,7 @@ public class EventServiceImpl implements EventService {
                             .collect(Collectors.toList());
                     break;
                 default:
-                    throw new IncorrectDataException("Вариант сортировки: по дате события или по количеству просмотров");
+                    throw new ConflictException("Вариант сортировки: по дате события или по количеству просмотров");
             }
         }
         return events
@@ -134,7 +134,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto getEventById(Long id) {
         Event event = findEventById(id);
         if (!event.getState().equals(State.PUBLISHED)) {
-            throw new IncorrectDataException("Cобытие должно быть опубликовано");
+            throw new ConflictException("Cобытие должно быть опубликовано");
         }
         getViews(id);
         EventFullDto fullDto = EventMapper.eventFullDto(event, getCountConfirmedRequests(id).orElse(0));
@@ -147,7 +147,7 @@ public class EventServiceImpl implements EventService {
         Event event = findEventById(eventId);
 
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new IncorrectDataException("Событие может изменить только текущий пользователь");
+            throw new ConflictException("Событие может изменить только текущий пользователь");
         }
         if (!event.getState().equals(State.PUBLISHED)) {
 
@@ -155,7 +155,7 @@ public class EventServiceImpl implements EventService {
             checkBeforeSaveNewEvent(newEventDto, event);
 
             if (LocalDateTime.now().plusHours(2).isAfter(event.getEventDate())) {
-                throw new IncorrectDataException("Время события не может быть раньше, чем через два часа");
+                throw new ConflictException("Время события не может быть раньше, чем через два часа");
             }
             switch (eventUpdateRequestDto.getStateAction()) {
                 case SEND_TO_REVIEW:
@@ -168,7 +168,7 @@ public class EventServiceImpl implements EventService {
             return EventMapper.eventFullDto(eventRepository.save(event),
                     getCountConfirmedRequests(event.getId()).orElse(0));
         } else {
-            throw new IncorrectDataException("изменить можно только отмененные события или события " +
+            throw new ConflictException("изменить можно только отмененные события или события " +
                     "в состоянии ожидания модерации");
         }
     }
@@ -189,15 +189,17 @@ public class EventServiceImpl implements EventService {
             end = LocalDateTime.parse(rangeEnd, FORMATTER);
         }
         List<Event> events = eventRepository.findEventsByAdmin(users, states, categories, start, end, pageRequest);
-        return events.stream().map(event ->
-                EventMapper.eventFullDto(event, getCountConfirmedRequests(event.getId()).orElse(0))).collect(Collectors.toList());
+        return events
+                .stream()
+                .map(event -> EventMapper.eventFullDto(event, getCountConfirmedRequests(event.getId())
+                        .orElse(0))).collect(Collectors.toList());
     }
 
     @Override
     public List<ParticipationRequestDto> getRequestEventByUser(Long userId, Long eventId) {
         Event event = findEventById(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new IncorrectDataException("Список запросов на участие в событие доступен только владельцу аккаунта");
+            throw new ConflictException("Список запросов на участие в событие доступен только владельцу аккаунта");
         }
         User user = findUserById(userId);
         return requestRepository.findAllByEventId(event.getId())
@@ -211,10 +213,10 @@ public class EventServiceImpl implements EventService {
         Event event = findEventById(eventId);
         ParticipationRequest request = findRequestById(reqId);
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new IncorrectDataException("Подтвердить запрос на участие в событие доступен только владельцу аккаунта");
+            throw new ConflictException("Подтвердить запрос на участие в событие доступен только владельцу аккаунта");
         }
         if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
-            throw new IncorrectDataException("Запрос не может быть подтвержден");
+            throw new ConflictException("Запрос не может быть подтвержден");
         }
         request.setStatus(CONFIRMED);
         return RequestMapper.toRequestEventDto(requestRepository.save(request));
@@ -229,15 +231,15 @@ public class EventServiceImpl implements EventService {
             return null;
         }
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new IncorrectDataException("Подтвердить запрос на участие в событие доступен только владельцу аккаунта");
+            throw new ConflictException("Подтвердить запрос на участие в событие доступен только владельцу аккаунта");
         }
         if (event.getParticipantLimit()
                 <= getCountConfirmedRequests(eventId).orElse(0)) {
-            throw new IncorrectDataException("достигнут лимит по заявкам на данное событие");
+            throw new ConflictException("достигнут лимит по заявкам на данное событие");
         }
         for (ParticipationRequest request : requests) {
             if (!request.getStatus().equals(RequestEventStatus.PENDING)) {
-                throw new IncorrectDataException("статус можно изменить только у заявок, находящихся в состоянии ожидания");
+                throw new ConflictException("статус можно изменить только у заявок, находящихся в состоянии ожидания");
             }
         }
         List<ParticipationRequestDto> confirmRequest = new ArrayList<>();
@@ -276,11 +278,11 @@ public class EventServiceImpl implements EventService {
         checkBeforeSaveNewEvent(newEventDto, event);
         LocalDateTime updateEventDate = event.getEventDate();
         if (updateEventDate.isBefore(LocalDateTime.now().minusHours(1))) {
-            throw new IncorrectDataException("Время события не может быть раньше, чем через два часа");
+            throw new ConflictException("Время события не может быть раньше, чем через два часа");
         }
         if (!event.getState().equals(State.PENDING) && eventUpdateRequestDto.getStateAction()
                 .equals(StateAction.PUBLISH_EVENT)) {
-            throw new IncorrectDataException("Cобытие можно публиковать, только если оно в состоянии ожидания публикации");
+            throw new ConflictException("Cобытие можно публиковать, только если оно в состоянии ожидания публикации");
         }
         if (event.getState().equals(State.PENDING) && eventUpdateRequestDto.getStateAction()
                 .equals(StateAction.PUBLISH_EVENT)) {
@@ -294,7 +296,7 @@ public class EventServiceImpl implements EventService {
         }
         if (event.getState().equals(State.PUBLISHED) && eventUpdateRequestDto.getStateAction()
                 .equals(StateAction.REJECT_EVENT)) {
-            throw new IncorrectDataException("Cобытие можно отклонить, только если оно еще не опубликовано ");
+            throw new ConflictException("Cобытие можно отклонить, только если оно еще не опубликовано ");
         }
         return EventMapper.eventFullDto(eventRepository.save(event), getCountConfirmedRequests(eventId).orElse(0));
     }

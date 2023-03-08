@@ -3,7 +3,7 @@ package ru.practicum.mainService.category.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.practicum.mainService.exeption.IncorrectDataException;
+import ru.practicum.mainService.exeption.ConflictException;
 import ru.practicum.mainService.exeption.NotFoundException;
 import ru.practicum.mainService.category.dto.CategoryDto;
 import ru.practicum.mainService.category.mapper.CategoryMapper;
@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(catId)
                 .orElseThrow(() -> new NotFoundException("Категория с id " + catId + " не существует"));
         if (eventRepository.findByCategoryId(catId).isPresent()) {
-            throw new IncorrectDataException("Существуют события, связанные с категорией");
+            throw new ConflictException("Существуют события, связанные с категорией");
         }
         categoryRepository.delete(category);
     }
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     private void validateCategory(CategoryDto categoryDto) {
         String name = categoryDto.getName();
         if (categoryRepository.findByName(name) != null) {
-            throw new IncorrectDataException("Имя " + categoryDto.getName() + " уже существует");
+            throw new ConflictException("Имя " + categoryDto.getName() + " уже существует");
         }
     }
 }

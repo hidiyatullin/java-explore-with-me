@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(path = "/users/{userId}/requests")
 public class RequestController {
 
-    private RequestService requestService;
+    private final RequestService requestService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

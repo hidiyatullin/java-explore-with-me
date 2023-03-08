@@ -34,7 +34,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                     "and (?3 is null or e.category_id in ?3) " +
                     "and (e.event_date >= ?4) " +
                     "and (e.event_date <= ?5) ")
-    List<Event> findEventsByAdmin(List<Long> users, List<String> stateValues,
+    List<Event> findEventsByAdmin(List<Long> users, List<String> state,
                                   List<Long> categories, LocalDateTime rangeStart,
                                   LocalDateTime rangeEnd, PageRequest pageRequest);
 }
