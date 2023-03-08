@@ -9,7 +9,7 @@ import ru.practicum.client.HitClient;
 @Configuration
 public class ConfigMainService {
 
-    @Value("http://localhost:9090")
+    @Value("${stats-server.url}")
     private String serverUrl;
 
     @Bean

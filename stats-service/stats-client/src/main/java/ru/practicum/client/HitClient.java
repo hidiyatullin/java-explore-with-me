@@ -21,7 +21,7 @@ import java.util.Map;
 @Slf4j
 public class HitClient extends BaseClient {
     @Autowired
-    public HitClient(@Value("http://stats-server:9090") String serverUrl, RestTemplateBuilder builder) {
+    public HitClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
