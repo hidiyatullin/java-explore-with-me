@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/users/{userId}/requests")
-public class RequestController {
+public class PrivateRequestController {
 
     private final RequestService requestService;
 
@@ -26,11 +26,13 @@ public class RequestController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getAllRequests(@PathVariable Long userId) {
         return requestService.getAllRequests(userId);
     }
 
     @PatchMapping("/{requestId}/cancel")
+    @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto cancelRequest(@PathVariable @NotNull Long userId,
                                                  @PathVariable @NotNull Long requestId) {
         return requestService.cancelRequest(userId, requestId);

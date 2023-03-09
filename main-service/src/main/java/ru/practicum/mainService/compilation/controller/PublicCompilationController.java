@@ -2,6 +2,7 @@ package ru.practicum.mainService.compilation.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.compilation.dto.CompilationDto;
 import ru.practicum.mainService.compilation.service.CompilationService;
@@ -19,6 +20,7 @@ public class PublicCompilationController {
     private final CompilationService compilationService;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<CompilationDto> getAllCompilations(@RequestParam(name = "pinned", required = false) Boolean pinned,
                                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                                    @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
@@ -26,6 +28,7 @@ public class PublicCompilationController {
     }
 
     @GetMapping("/{compId}")
+    @ResponseStatus(HttpStatus.OK)
     public CompilationDto getCompilationById(@PathVariable Long compId) {
         return compilationService.getCompilationDtoById(compId);
     }

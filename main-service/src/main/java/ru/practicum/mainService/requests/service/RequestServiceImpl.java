@@ -16,6 +16,7 @@ import ru.practicum.mainService.requests.repository.RequestRepository;
 import ru.practicum.mainService.user.model.User;
 import ru.practicum.mainService.user.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class RequestServiceImpl implements RequestService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public ParticipationRequestDto create(Long userId, Long eventId) {
         if (requestRepository.findByEventIdAndRequesterId(eventId, userId) != null) {
             throw new ConflictException("Запрос от пользователя с id уже существует " + userId);
@@ -70,6 +72,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         ParticipationRequest request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new NotFoundException("Запроса с id " + requestId + " нет в списке"));

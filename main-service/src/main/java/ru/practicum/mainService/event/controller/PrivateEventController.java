@@ -33,6 +33,7 @@ public class PrivateEventController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> getAllEventsByUser(@PathVariable Long userId,
                                                   @RequestParam(defaultValue = "0") int from,
                                                   @RequestParam(name = "size", defaultValue = "10") int size) {
@@ -40,18 +41,21 @@ public class PrivateEventController {
     }
 
     @GetMapping("/{eventId}/requests")
+    @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getRequestEventByUser(@PathVariable Long userId,
                                                                @PathVariable Long eventId) {
         return eventService.getRequestEventByUser(userId, eventId);
     }
 
     @GetMapping("{eventId}")
+    @ResponseStatus(HttpStatus.OK)
     public EventFullDto getEventByIdByCreator(@PathVariable Long userId,
                                               @PathVariable Long eventId) {
         return eventService.getEventByIdByCreator(userId, eventId);
     }
 
     @PatchMapping("{eventId}")
+    @ResponseStatus(HttpStatus.OK)
     public EventFullDto updateByCreator(@PathVariable Long userId,
                                         @PathVariable Long eventId,
                                         @RequestBody EventUpdateRequestDto eventUpdateRequestDto) {
@@ -60,6 +64,7 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{eventId}/requests/{reqId}/confirm")
+    @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto confirmRequestForEvent(@PathVariable Long userId,
                                                           @PathVariable Long eventId,
                                                           @PathVariable Long reqId) {
@@ -67,6 +72,7 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{eventId}/requests")
+    @ResponseStatus(HttpStatus.OK)
     public EventRequestStatusUpdateResult changeRequestForEvent(@PathVariable Long userId,
                                                                 @PathVariable Long eventId,
                                                                 @RequestBody ParticipationRequestStatusUpdate participationRequestDto) {

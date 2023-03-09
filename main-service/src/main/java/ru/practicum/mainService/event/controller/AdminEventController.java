@@ -2,6 +2,7 @@ package ru.practicum.mainService.event.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.event.dto.EventFullDto;
 import ru.practicum.mainService.event.dto.EventUpdateRequestDto;
@@ -26,12 +27,14 @@ public class AdminEventController {
     }
 
     @PatchMapping("/{eventId}")
+    @ResponseStatus(HttpStatus.OK)
     public EventFullDto updateEventByAdmin(@PathVariable @NotNull Long eventId,
                                            @RequestBody EventUpdateRequestDto eventUpdateRequestDto) {
         return eventService.updateEventByAdmin(eventId, eventUpdateRequestDto);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<EventFullDto> getEventsByParams(@RequestParam(required = false) List<Long> users,
                                                    @RequestParam(defaultValue = "PUBLISHED", required = false) List<String> states,
                                                    @RequestParam(required = false) List<Long> categories,

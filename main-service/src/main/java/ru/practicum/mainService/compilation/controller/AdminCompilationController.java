@@ -34,6 +34,7 @@ public class AdminCompilationController {
     }
 
     @PatchMapping("/{compId}")
+    @ResponseStatus(HttpStatus.OK)
     public CompilationDto updateCompilation(@PathVariable Long compId,
                                             @RequestBody NewCompilationDto newCompilationDto) {
         return compilationService.updateCompilation(compId, newCompilationDto);
