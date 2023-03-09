@@ -10,7 +10,6 @@ import ru.practicum.model.ViewStats;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -39,12 +38,8 @@ public class StatsServiceImpl implements StatsService {
         if (uris.isEmpty()) {
             throw new ValidationException("Uris для подсчета статистики не переданы");
         }
-        try {
-            startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8.toString()), formatter);
-            endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8.toString()), formatter);
-        } catch (UnsupportedEncodingException e) {
-            throw new ValidationException("Время не может быть раскодировано");
-        }
+        startStat = LocalDateTime.parse(URLDecoder.decode(startDate, StandardCharsets.UTF_8), formatter);
+        endStat = LocalDateTime.parse(URLDecoder.decode(endDate, StandardCharsets.UTF_8), formatter);
 
         if (unique) {
             return statsRepository.findAllUnique(startStat, endStat, uris, unique);
