@@ -28,6 +28,7 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
     public CommentDto getCommentById(@PathVariable("id") Long userId,
                                      @PathVariable Long commentId) {
         return commentService.getComment(userId, commentId);
@@ -35,12 +36,14 @@ public class CommentController {
 
     @DeleteMapping("/{commentId}")
     @Transactional
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") Long userId,
                            @PathVariable Long commentId) {
         commentService.deleteById(userId, commentId);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<CommentDto> getAllByEventId(@RequestParam Long eventId,
                                             @RequestParam(name = "from", defaultValue = "0") int from,
                                             @RequestParam(name = "size", defaultValue = "10") int size) {
