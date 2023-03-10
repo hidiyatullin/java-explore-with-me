@@ -52,7 +52,7 @@ CREATE TABLE events
     participant_limit BIGINT,
     views BIGINT,
     location_id BIGINT REFERENCES locations (id) ON DELETE CASCADE,
-    comment_id BIGINT REFERENCES comments (id) ON DELETE CASCADE
+    comment_id BIGINT
 );
 
 CREATE TABLE requests
