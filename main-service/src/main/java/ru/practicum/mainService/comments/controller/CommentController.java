@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainService.comments.dto.CommentDto;
 import ru.practicum.mainService.comments.service.CommentService;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
