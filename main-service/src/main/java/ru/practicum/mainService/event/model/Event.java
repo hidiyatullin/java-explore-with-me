@@ -78,4 +78,11 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "compilation_id"))
     private List<Compilation> compilations;
+
+//    @OneToMany
+    @Column(name = "comment_id")
+    @JoinTable(name = "comments",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private Long commentId;
 }
