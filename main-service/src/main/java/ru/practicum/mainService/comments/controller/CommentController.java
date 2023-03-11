@@ -35,7 +35,6 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") Long userId,
                            @PathVariable Long commentId) {
